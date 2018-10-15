@@ -11,13 +11,23 @@ pipeline {
   stages {
     stage('Build') { 
       steps {
-        sh 'npm install' 
+        sh 'npm install'
+        sh 'npm install forever'
+      }
+    }
+    stage('Start server') {
+      steps {
+        sh 'forever start app/server.js'
       }
     }
     stage('Test') {
       steps {
-        sh 'npm start'
         sh 'npm test'
+      }
+    }
+    stage('Stop server') {
+      steps {
+        sh 'forever stop app/server.js'
       }
     }
   }
