@@ -12,7 +12,7 @@ pipeline {
     stage('Build') { 
       steps {
         sh 'npm install'
-        sh 'npm install forever'
+        sh 'npm install forever -g'
       }
     }
     stage('Start server') {
