@@ -22,9 +22,7 @@ pipeline {
     }
     stage('Test') {
       steps {
-        wrap([$class: 'HailstoneBuildWrapper', location: 'host.docker.internal', port: '10010']) {
-          sh 'npm test'
-        }
+        sh 'npm test'
       }
     }
     stage('Stop server') {
