@@ -1,34 +1,18 @@
-pipeline {
-  agent {
-    docker {
-      image 'node:6-alpine' 
-      args '-p 3000:3000' 
-    }
-  }
-  environment {
-    CI = 'true'
-  }
-  stages {
+node {
+  checkout scm
+  wrap([$class: 'HailstoneBuildWrapper', location: 'localhost', port: '10010']) {
     stage('Build') { 
-      steps {
-        sh 'npm install'
-        sh 'npm install forever -g'
-      }
+      sh 'npm install'
+      sh 'npm install forever -g'
     }
     stage('Start server') {
-      steps {
-        sh 'forever start app/server.js'
-      }
+      sh 'forever start app/server.js'
     }
     stage('Test') {
-      steps {
-        sh 'npm test'
-      }
+      sh 'npm test'
     }
     stage('Stop server') {
-      steps {
-        sh 'forever stop app/server.js'
-      }
+      sh 'forever stop app/server.js'
     }
   }
 }
