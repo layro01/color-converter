@@ -15,21 +15,13 @@ pipeline {
         sh 'npm install forever -g'
       }
     }
-    stage('Start server') {
-      steps {
-        sh 'forever start app/server.js'
-      }
-    }
     stage('Test') {
       steps {
         wrap([$class: 'HailstoneBuildWrapper', location: 'host.docker.internal', port: '10010']) {
+          sh 'forever start -c /bin/bash ./start.sh'
           sh 'npm test'
+          sh 'forever stopall'
         }
-      }
-    }
-    stage('Stop server') {
-      steps {
-        sh 'forever stop app/server.js'
       }
     }
   }
