@@ -4,9 +4,14 @@ var app = express();
 var converter = require("./converter");
 
 app.get("/rgbToHex", function(req, res) {
-  var red   = parseInt(req.query.red, 10);
-  var green = parseInt(req.query.green, 10);
-  var blue  = parseInt(req.query.blue, 10);
+  // To fix these security vulnerabilities, 
+  // Replace the three eval() statements with their parseInt() versions.
+  var red = eval(req.query.red);
+  var green = eval(req.query.green, 10);
+  var blue  = eval(req.query.blue, 10);
+  // var red   = parseInt(req.query.red, 10);
+  // var green = parseInt(req.query.green, 10);
+  // var blue  = parseInt(req.query.blue, 10);
   var hex = converter.rgbToHex(red, green, blue);
   res.send(hex);
 });
