@@ -31,6 +31,6 @@ export IASTAGENT_ANNOTATIONHANDLER_JSONFILE_PATHNAME=iastoutput.ndjson
 export IASTAGENT_ANNOTATIONHANDLER_JSONFILE_LEVEL=info
 
 # This should (needs to) come from the Jenkins environment.
-export BUILD_TAG=jenkins-agent-server-test-pipeline-55
+# export BUILD_TAG=jenkins-agent-server-test-pipeline-55
 
 node -r agent_nodejs_${PLATFORM} app/server.js
