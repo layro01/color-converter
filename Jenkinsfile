@@ -1,8 +1,7 @@
 pipeline {
   agent {
     docker {
-      image 'node:10-alpine' 
-      args '-p 3000:3000' 
+      image 'node:10'
     }
   }
   environment {
@@ -18,7 +17,7 @@ pipeline {
     stage('Test') {
       steps {
         wrap([$class: 'HailstoneBuildWrapper', location: 'host.docker.internal', port: '10010']) {
-          sh 'forever start -o out.log -e err.log --killTree --minUptime 1000 --spinSleepTime 1000 -c /bin/bash ./start.sh'
+          sh 'forever start -a -o out.log -e err.log --killTree --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
           sh 'forever list'
           sh 'cat out.log'
           sh 'cat err.log'
