@@ -2,7 +2,7 @@
 
 # To run with forever daemon do the following:
 # npm install forever -g
-# forever start -c /bin/bash ./start.sh
+# forever start --killTree --minUptime 1000 --spinSleepTime 1000 -c /bin/bash ./start.sh
 
 case "$OSTYPE" in
   darwin*)
@@ -31,6 +31,7 @@ export IASTAGENT_ANNOTATIONHANDLER_JSONFILE_PATHNAME=iastoutput.ndjson
 export IASTAGENT_ANNOTATIONHANDLER_JSONFILE_LEVEL=info
 
 # This should (needs to) come from the Jenkins environment.
-# export BUILD_TAG=jenkins-agent-server-test-pipeline-55
+# Ennable the following line if you want to run the script manually and mock a Jenkins build execution.
+# export BUILD_TAG=jenkins-agent-server-test-pipeline-9000
 
 node -r agent_nodejs_${PLATFORM} app/server.js

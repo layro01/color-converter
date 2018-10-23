@@ -18,8 +18,9 @@ pipeline {
     stage('Test') {
       steps {
         wrap([$class: 'HailstoneBuildWrapper', location: 'host.docker.internal', port: '10010']) {
-          sh 'forever start -c /bin/bash ./start.sh'
+          sh 'forever start --killTree --minUptime 1000 --spinSleepTime 1000 -c /bin/bash ./start.sh'
           sh 'forever list'
+          sh 'cat iastdebug.txt'
           sh 'npm test'
           sh 'forever stopall'
         }
