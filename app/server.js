@@ -3,6 +3,19 @@ var app = express();
 
 var converter = require("./converter");
 
+// This function is called when you want the server to end gracefully
+// (i.e. wait for existing connections to close).
+var gracefulShutdown = function() {
+  console.log("Received shutdown command, shutting down gracefully.");
+  process.exit();
+}
+
+// listen for TERM signal (e.g. kill command issued by forever).
+process.on('SIGTERM', gracefulShutdown);
+
+// listen for INT signal (e.g. Ctrl+C).
+process.on('SIGINT', gracefulShutdown);
+
 app.get("/rgbToHex", function(req, res) {
   // To fix these security vulnerabilities, 
   // Replace the three eval() statements with their parseInt() versions.
