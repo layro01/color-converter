@@ -2,7 +2,7 @@
 
 # To run with forever daemon do the following:
 # npm install forever -g
-# forever start -a -o out.log -e err.log --killTree --minUptime 1000 --spinSleepTime 1000 -c /bin/bash ./start.sh
+# forever start -o out.log -e err.log --killTree --minUptime 1000 --spinSleepTime 1000 -c /bin/bash ./start.sh
 
 # Currently using the Hailstone Agent from the host machine dev environment.
 # What would be a better way of getting the Agent either into the image or referenced from the host machine?
