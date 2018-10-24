@@ -17,7 +17,7 @@ pipeline {
     stage('Test') {
       steps {
         wrap([$class: 'HailstoneBuildWrapper', location: 'host.docker.internal', port: '10010']) {
-          sh 'forever start --killSignal SIGINT --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
+          sh 'forever start --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
           sleep(time:5,unit:"SECONDS")
           sh 'npm test'
           sh 'forever stop 0'
