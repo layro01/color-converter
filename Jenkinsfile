@@ -24,5 +24,10 @@ pipeline {
         }
       }
     }
+    stage('Deploy') { 
+      steps {
+        sh 'echo npm package would run here...'
+      }
+    }
   }
 }
