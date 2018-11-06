@@ -39,7 +39,7 @@ app.get("/hexToRgb", function(req, res) {
 // Id:          CWE-73
 // Description: External Control of File Name or Path
 // Exploit URL: http://localhost:3000/download?file=README.md
-// Status:      FAIL: Crashes the Hailstone Agent and kills Node process if the file specified is valid (see AGENT-274).
+// Status:      PASS
 app.get('/download', function (req, res) {
   res.download(req.query.file);
 });
@@ -55,7 +55,7 @@ app.get('/echo', function (req, res) {
 // Id:          CWE-201
 // Description: Information Exposure Through Sent Data
 // Exploit URL: http://localhost:3000/exposure?text=sensitive
-// Status:      FAIL: Not triggered.
+// Status:      PASS
 app.get('/exposure', function (req, res) {
   res.json(req.query.text);
 });

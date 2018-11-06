@@ -4,10 +4,10 @@ var request = require("request");
 describe("Color Code Converter API", function() {
   this.timeout(15000);
   describe("CWE-73: External Control of File Name or Path", function() {
-    var url = "http://localhost:3000/download?file=invalid";
+    var url = "http://localhost:3000/download?file=package.json";
     it("downloads a sensitive file from the server", function(done) {
       request(url, function(error, response, body) {
-        expect(response.statusCode).to.equal(404);
+        expect(response.statusCode).to.equal(200);
         done();
       });
     });
