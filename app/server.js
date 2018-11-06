@@ -17,6 +17,7 @@ process.on('SIGTERM', gracefulShutdown);
 process.on('SIGINT', gracefulShutdown);
 
 app.get("/rgbToHex", function(req, res) {
+  // CWE-95
   // To fix these security vulnerabilities, 
   // Replace the three eval() statements with their parseInt() versions.
   var red = eval(req.query.red);
@@ -33,6 +34,17 @@ app.get("/hexToRgb", function(req, res) {
   var hex = req.query.hex;
   var rgb = converter.hexToRgb(hex);
   res.send(JSON.stringify(rgb));
+});
+
+app.get('/echo', function (req, res) {
+  // CWE-79
+  res.send("<p>You sent this: " + req.query.text + "</p>")
+});
+
+// http://localhost:3000/redirect?text=maliciouwebsite
+app.get('/redirect', function (req, res) {
+  // CWE-601
+  res.redirect("http://localhost:3000/echo?text=" + req.query.text + " (Redirected)");
 });
 
 app.listen(3000);
