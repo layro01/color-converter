@@ -2,7 +2,18 @@ var expect  = require("chai").expect;
 var request = require("request");
 
 describe("Color Code Converter API", function() {
-  describe("Echo check", function() {
+  this.timeout(15000);
+  describe("CWE-73: External Control of File Name or Path", function() {
+    var url = "http://localhost:3000/download?file=invalid";
+    it("downloads a sensitive file from the server", function(done) {
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(404);
+        done();
+      });
+    });
+  });
+
+  describe("CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')", function() {
     var url = "http://localhost:3000/echo?text=hello";
     it("echoes back what you send in the text query string parameter", function(done) {
       request(url, function(error, response, body) {
@@ -13,7 +24,18 @@ describe("Color Code Converter API", function() {
     });
   });
 
-  describe("Redirected echo check", function() {
+  describe("CWE-201: Information Exposure Through Sent Data", function() {
+    var url = "http://localhost:3000/exposure?text=sensitive";
+    it("echoes back what you send in the text query string parameter via a redirect", function(done) {
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        expect(body).to.equal("\"sensitive\"");
+        done();
+      });
+    });
+  });
+
+  describe("CWE-601: URL Redirection to Untrusted Site ('Open Redirect')", function() {
     var url = "http://localhost:3000/redirect?text=hello";
     it("echoes back what you send in the text query string parameter via a redirect", function(done) {
       request(url, function(error, response, body) {

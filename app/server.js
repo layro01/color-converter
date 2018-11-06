@@ -17,7 +17,7 @@ process.on('SIGTERM', gracefulShutdown);
 process.on('SIGINT', gracefulShutdown);
 
 app.get("/rgbToHex", function(req, res) {
-  // CWE-95
+  // CWE-95: PASS
   // To fix these security vulnerabilities, 
   // Replace the three eval() statements with their parseInt() versions.
   var red = eval(req.query.red);
@@ -36,14 +36,35 @@ app.get("/hexToRgb", function(req, res) {
   res.send(JSON.stringify(rgb));
 });
 
+// Id:          CWE-73
+// Description: External Control of File Name or Path
+// Exploit URL: http://localhost:3000/download?file=README.md
+// Status:      FAIL: Crashes the Hailstone Agent and kills Node process if the file specified is valid (see AGENT-274).
+app.get('/download', function (req, res) {
+  res.download(req.query.file);
+});
+
+// Id:          CWE-79
+// Description: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+// Exploit URL: http://localhost:3000/echo?text=hello
+// Status:      PASS
 app.get('/echo', function (req, res) {
-  // CWE-79
   res.send("<p>You sent this: " + req.query.text + "</p>")
 });
 
-// http://localhost:3000/redirect?text=maliciouwebsite
+// Id:          CWE-201
+// Description: Information Exposure Through Sent Data
+// Exploit URL: http://localhost:3000/exposure?text=sensitive
+// Status:      FAIL: Not triggered.
+app.get('/exposure', function (req, res) {
+  res.json(req.query.text);
+});
+
+// Id:          CWE-601
+// Description: URL Redirection to Untrusted Site ('Open Redirect')
+// Exploit URL: http://localhost:3000/redirect?text=www.maliciouswebsite.com
+// Status:      FAIL: Triggers CWE-79 instead.
 app.get('/redirect', function (req, res) {
-  // CWE-601
   res.redirect("http://localhost:3000/echo?text=" + req.query.text + " (Redirected)");
 });
 
