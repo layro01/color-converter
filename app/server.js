@@ -52,6 +52,15 @@ app.get('/echo', function (req, res) {
   res.send("<p>You sent this: " + req.query.text + "</p>")
 });
 
+// Id:          CWE-113
+// Description: Improper Neutralization of CRLF Sequences in HTTP Headers ('HTTP Response Splitting')
+// Exploit URL: http://localhost:3000/split?key=myKey&value=myValueThatCouldHaveCRLFs
+// Status:      PASS
+app.get('/split', function (req, res) {
+  res.append(req.query.key, req.query.value);
+  res.status(200).send('Check your headers!')
+});
+
 // Id:          CWE-201
 // Description: Information Exposure Through Sent Data
 // Exploit URL: http://localhost:3000/exposure?text=sensitive
@@ -63,7 +72,7 @@ app.get('/exposure', function (req, res) {
 // Id:          CWE-601
 // Description: URL Redirection to Untrusted Site ('Open Redirect')
 // Exploit URL: http://localhost:3000/redirect?text=www.maliciouswebsite.com
-// Status:      FAIL: Triggers CWE-79 instead.
+// Status:      PASS
 app.get('/redirect', function (req, res) {
   res.redirect("http://localhost:3000/echo?text=" + req.query.text + " (Redirected)");
 });

@@ -2,7 +2,7 @@ var expect  = require("chai").expect;
 var request = require("request");
 
 describe("Color Code Converter API", function() {
-  this.timeout(15000);
+  this.timeout(25000);
   describe("CWE-73: External Control of File Name or Path", function() {
     var url = "http://localhost:3000/download?file=package.json";
     it("downloads a sensitive file from the server", function(done) {
@@ -19,6 +19,16 @@ describe("Color Code Converter API", function() {
       request(url, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
         expect(body).to.equal("<p>You sent this: hello</p>");
+        done();
+      });
+    });
+  });
+
+  describe("CWE-113: Improper Neutralization of CRLF Sequences in HTTP Headers ('HTTP Response Splitting')", function() {
+    var url = "http://localhost:3000/split?key=myKey&value=myValueThatCouldHaveCRLFs";
+    it("appends a file name to the HTTP response", function(done) {
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
         done();
       });
     });
