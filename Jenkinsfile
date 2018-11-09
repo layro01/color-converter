@@ -12,7 +12,7 @@ pipeline {
     }
     stage('Test') {
       steps {
-        wrap([$class: 'HailstoneBuildWrapper', location: 'agent-server', port: '10010']) {
+        wrap([$class: 'HailstoneBuildWrapper', location: 'jenkins-demo.hailstone.io', port: '10010']) {
           sh 'forever start --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
           sleep(time:10,unit:"SECONDS")
           sh 'npm test'
