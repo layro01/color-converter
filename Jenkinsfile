@@ -14,7 +14,7 @@ pipeline {
       steps {
         wrap([$class: 'HailstoneBuildWrapper', location: 'agent-server', port: '10010']) {
           sh 'forever start --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
-          sleep(time:20,unit:"SECONDS")
+          sleep(time:10,unit:"SECONDS")
           sh 'npm test'
           sh 'forever stop 0'
         }
