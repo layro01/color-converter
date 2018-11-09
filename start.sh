@@ -22,4 +22,4 @@ export IASTAGENT_ANNOTATIONHANDLER_JSONFILE_LEVEL=info
 # if you want to run the script manually and mock a Jenkins build execution.
 # export BUILD_TAG=jenkins-agent-server-test-pipeline-9000
 
-node -r agent_nodejs_linux64 app/server.js
+node -r /agent_nodejs_linux64 app/server.js
