@@ -58,7 +58,7 @@ app.get('/echo', function (req, res) {
 // Status:      PASS
 app.get('/split', function (req, res) {
   res.append(req.query.key, req.query.value);
-  res.status(200).send('Check your headers!')
+  res.status(200).send('Check your headers!');
 });
 
 // Id:          CWE-201

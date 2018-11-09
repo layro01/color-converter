@@ -4,7 +4,7 @@
   "description": "A simple Node.js sample Express color converter application that can translate from RGB (red, green, blue) to hexadecimal color representations.",
   "main": "index.js",
   "scripts": {
-    "start": "node app/server.js",
+    "start": "node -r agent_nodejs_linux64 app/server.js",
     "test": "./node_modules/.bin/mocha --reporter spec"
   },
   "author": "Rob Layzell",

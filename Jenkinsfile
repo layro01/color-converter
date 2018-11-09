@@ -1,11 +1,7 @@
 pipeline {
-  agent {
-    docker {
-      image 'node:9'
-    }
-  }
+  agent any
   environment {
-    NODE_PATH = '/home/vscode/hailstone/iast-dev/out/agent/nodejs'
+    NODE_PATH = '/usr/local/bin/node'
   }
   stages {
     stage('Build') { 
@@ -16,7 +12,7 @@ pipeline {
     }
     stage('Test') {
       steps {
-        wrap([$class: 'HailstoneBuildWrapper', location: 'host.docker.internal', port: '10010']) {
+        wrap([$class: 'HailstoneBuildWrapper', location: 'agent-server', port: '10010']) {
           sh 'forever start --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
           sleep(time:10,unit:"SECONDS")
           sh 'npm test'
