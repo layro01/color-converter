@@ -12,7 +12,7 @@ pipeline {
     }
     stage('Test') {
       steps {
-        wrap([$class: 'HailstoneBuildWrapper', location: 'localhost', port: '10010']) {
+        wrap([$class: 'HailstoneBuildWrapper', location: 'docker', port: '10010']) {
           sh 'forever start -e err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
           sh 'while [ $(curl -s -w "%{http_code}" "http://localhost:3000/echo?text=hello" -o /dev/null) != "200" ]; do sleep 5 ; done'
           // Comment in this next line to view the Agent log.
