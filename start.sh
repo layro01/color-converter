@@ -25,9 +25,4 @@
 # if you want to run the script manually and mock a Jenkins build execution.
 # export BUILD_TAG=jenkins-agent-server-test-pipeline-9000
 
-echo Starting Node app...
-echo PATH=$PATH
-echo NODE_PATH=$NODE_PATH
-echo PWD=$(pwd)
-ls
-node -r /agent_nodejs_linux64 app/server.js
+node -r agent_nodejs_linux64 app/server.js
