@@ -16,7 +16,7 @@ pipeline {
           sh 'forever start -e err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
           sleep(time:30,unit:"SECONDS")
           // Comment in this next line to view the Agent log.
-          // sh 'cat err.log'
+          sh 'cat err.log'
           sh 'npm test'
           sh 'forever stop 0'
         }
