@@ -10,7 +10,7 @@ pipeline {
     string(name: 'IAST_AGENT_PATH', defaultValue: '', description: 'The path to the Hailstone Agent (e.g. agent_nodejs_linux64.node).')
   }
   environment {
-    NODE_PATH = parms.IAST_AGENT_PATH
+    NODE_PATH = params.IAST_AGENT_PATH
   }
   stages {
     stage('Build') { 
