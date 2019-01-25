@@ -13,7 +13,7 @@ pipeline {
     }
     stage('Test') {
       steps {
-        sh 'forever start  -e err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
+        sh 'forever start  -e err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 app/server.js'
         sleep(time:30,unit:"SECONDS")
         sh 'cat err.log'
         sh 'npm test'
