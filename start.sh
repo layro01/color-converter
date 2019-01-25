@@ -5,7 +5,7 @@
 # forever start -o out.log -e err.log --killTree --minUptime 1000 --spinSleepTime 1000 -c /bin/bash ./start.sh
 
 # Use this to specify where the Hailstone Agent to attach is located.
-export NODE_PATH=~/vscode/hailstone/iast-dev/out/agent/nodejs
+# export NODE_PATH=~/vscode/hailstone/iast-dev/out/agent/nodejs
 
 # These should be fine set at their default values.
 # If we want a user to be able to set them, we could update the Jenkins Plugin so 
