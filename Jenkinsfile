@@ -17,7 +17,8 @@ pipeline {
     }
     stage('Test') {
       steps {
-        sh 'export'
+        sh 'echo ${params.IASTAGENT_REMOTE_ENDPOINT_HTTP_LOCATION}'
+        sh 'echo ${params.IASTAGENT_REMOTE_ENDPOINT_HTTP_PORT}'
         sh 'forever start  -e err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 app/server.js'
         sleep(time:30,unit:"SECONDS")
         sh 'cat err.log'
