@@ -1,7 +1,8 @@
 pipeline {
-  agent any
-  environment {
-    NODE_PATH = '/usr/local/bin/node'
+  agent {
+    docker {
+      image 'node:9'
+    }
   }
   stages {
     stage('Build') { 
@@ -12,14 +13,10 @@ pipeline {
     }
     stage('Test') {
       steps {
-        wrap([$class: 'HailstoneBuildWrapper', location: 'docker', port: '10010']) {
-          sh 'forever start -e err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
-          sleep(time:30,unit:"SECONDS")
-          // Comment in this next line to view the Agent log.
-          sh 'cat err.log'
-          sh 'npm test'
-          sh 'forever stop 0'
-        }
+        sh 'forever start --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
+        sleep(time:30,unit:"SECONDS")
+        sh 'npm test'
+        sh 'forever stop 0'
       }
     }
     stage('Deploy') { 
