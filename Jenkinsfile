@@ -1,5 +1,9 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'node:9'
+    }
+  }
   parameters {
     string(name: 'IASTAGENT_REMOTE_ENDPOINT_HTTP_LOCATION', defaultValue: 'localhost', description: 'The Hailstone Agent Server host name.')
     string(name: 'IASTAGENT_REMOTE_ENDPOINT_HTTP_PORT', defaultValue: '10010', description: 'The Hailstone Agent Server port number.')
