@@ -6,6 +6,7 @@ pipeline {
   }
   parameters {
     string(name: 'IASTAGENT_REMOTE_ENDPOINT_HTTP_LOCATION', defaultValue: 'localhost', description: 'The Hailstone Agent Server host name.')
+    string(name: 'IASTAGENT_REMOTE_ENDPOINT_HTTP_PORT', defaultValue: '10010', description: 'The port that the Hailstone Agent Server is listening to.')
   }
   environment {
     NODE_PATH = '/usr/local/bin/node'
@@ -19,8 +20,8 @@ pipeline {
     }
     stage('Test') {
       steps {
-        echo "Running Test stage with Agent Server: ${params.IASTAGENT_REMOTE_ENDPOINT_HTTP_LOCATION}:10010"
-        wrap([$class: 'HailstoneBuildWrapper', location: params.IASTAGENT_REMOTE_ENDPOINT_HTTP_LOCATION, port: '10010']) {
+        echo "Running Test stage with Agent Server: ${params.IASTAGENT_REMOTE_ENDPOINT_HTTP_LOCATION}:${params.IASTAGENT_REMOTE_ENDPOINT_HTTP_LOCATION}"
+        wrap([$class: 'HailstoneBuildWrapper', location: params.IASTAGENT_REMOTE_ENDPOINT_HTTP_LOCATION, port: params.IASTAGENT_REMOTE_ENDPOINT_HTTP_LOCATION]) {
           sh 'forever start -e err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
           sleep(time:30,unit:"SECONDS")
           // Comment in this next line to view the Agent log.
