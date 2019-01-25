@@ -15,6 +15,7 @@ pipeline {
       steps {
         sh 'forever start --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
         sleep(time:30,unit:"SECONDS")
+        sh 'cat err.log'
         sh 'npm test'
         sh 'forever stop 0'
       }
