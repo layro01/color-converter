@@ -21,7 +21,7 @@ pipeline {
     stage('Test') {
       steps {
         echo "Running Test stage with Agent Server: ${params.IASTAGENT_REMOTE_ENDPOINT_HTTP_LOCATION}:${params.IASTAGENT_REMOTE_ENDPOINT_HTTP_PORT}"
-        wrap([$class: 'HailstoneBuildWrapper', location: '${params.IASTAGENT_REMOTE_ENDPOINT_HTTP_LOCATION}', port: '${params.IASTAGENT_REMOTE_ENDPOINT_HTTP_PORT}']) {
+        wrap([$class: 'HailstoneBuildWrapper', location: '${params.IASTAGENT_REMOTE_ENDPOINT_HTTP_LOCATION}', port: ${params.IASTAGENT_REMOTE_ENDPOINT_HTTP_PORT}]) {
           sh 'forever start -e err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
           sleep(time:30,unit:"SECONDS")
           // Comment in this next line to view the Agent log.
