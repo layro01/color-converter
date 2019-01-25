@@ -10,7 +10,7 @@ pipeline {
     string(name: 'IAST_AGENT_PATH', defaultValue: '', description: 'The path to the Hailstone Agent (e.g. agent_nodejs_linux64.node).')
   }
   environment {
-    NODE_PATH = '/usr/local/bin/node'
+    NODE_PATH = parms.IAST_AGENT_PATH
   }
   stages {
     stage('Build') { 
@@ -23,7 +23,6 @@ pipeline {
       steps {
         echo "Running Test stage with Agent Server: ${params.IAST_SERVER_HOST}:${params.IAST_SERVER_PORT}"
         wrap([$class: 'HailstoneBuildWrapper', location: params.IAST_SERVER_HOST, port: params.IAST_SERVER_PORT]) {
-          sh 'export NODE_PATH=parms.IAST_AGENT_PATH'
           sh 'export'
           sh 'forever start -e err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
           sleep(time:30,unit:"SECONDS")
