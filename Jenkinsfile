@@ -1,9 +1,5 @@
 pipeline {
-  agent {
-    docker {
-      image 'node:9'
-    }
-  }
+  agent any
   parameters {
     string(name: 'IAST_SERVER_HOST', defaultValue: 'localhost', description: 'The Hailstone Agent Server host name.')
     string(name: 'IAST_SERVER_PORT', defaultValue: '10010', description: 'The port that the Hailstone Agent Server is listening to.')
