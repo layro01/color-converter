@@ -6,7 +6,10 @@ pipeline {
     string(name: 'IAST_AGENT_PATH', defaultValue: '', description: 'The path to the Hailstone Agent (e.g. agent_nodejs_linux64.node).')
   }
   environment {
-    NODE_PATH = "${params.IAST_AGENT_PATH}"
+    IAST_SERVER_HOST = "host.docker.internal"
+    IAST_SERVER_PORT = "10010"
+    IAST_AGENT_PATH = "/home/agents"
+    NODE_PATH = ${IAST_AGENT_PATH}
   }
   stages {
     stage('Build') { 
@@ -17,10 +20,8 @@ pipeline {
     }
     stage('Test') {
       steps {
-        echo "Running Test stage with Agent Server: ${params.IAST_SERVER_HOST}:${params.IAST_SERVER_PORT}"
-        wrap([$class: 'HailstoneBuildWrapper', location: params.IAST_SERVER_HOST, port: params.IAST_SERVER_PORT]) {
-          sh 'export'
-          sh(returnStdout: true, script: 'ls ~/')
+        echo "Running Test stage with Agent Server: ${IAST_SERVER_HOST}:${IAST_SERVER_PORT}"
+        wrap([$class: 'HailstoneBuildWrapper', location: ${IAST_SERVER_HOST}, port: ${IAST_SERVER_PORT}]) {
           sh 'forever start -e err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
           sleep(time:30,unit:"SECONDS")
           // Comment in this next line to view the Agent log.
