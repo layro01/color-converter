@@ -3,7 +3,7 @@ pipeline {
   environment {
     IAST_SERVER_HOST = "docker"
     IAST_SERVER_PORT = "10010"
-    IAST_AGENT_PATH = "/"
+    IAST_AGENT_PATH = "/var/jenkins_home"
     NODE_PATH = "${IAST_AGENT_PATH}"
   }
   stages {
