@@ -1,9 +1,5 @@
 pipeline {
-  agent {
-    docker {
-      image 'node:9'
-    }
-  }
+  agent any
   environment {
     IAST_SERVER_HOST = "docker"
     IAST_SERVER_PORT = "10010"
