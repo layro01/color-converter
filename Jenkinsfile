@@ -16,6 +16,16 @@ pipeline {
     stage('Test') {
       steps {
         echo "Running Test stage with Agent Server: ${IAST_SERVER_HOST}:${IAST_SERVER_PORT}"
+        script {
+          def agentPath = "${NODE_PATH}/agent_nodejs_linux64.node"
+          dir("${NODE_PATH}") {
+            if (fileExists("agent_nodejs_linux64.node")) {
+              echo "Using Agent: ${agentPath}"
+            } else {
+              echo "ERROR: Agent cannot be found at: ${agentPath}"
+            }
+          }
+        }
         wrap([$class: 'HailstoneBuildWrapper', location: env.IAST_SERVER_HOST, port: env.IAST_SERVER_PORT]) {
           sh 'forever start -e err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
           sleep(time:30,unit:"SECONDS")
