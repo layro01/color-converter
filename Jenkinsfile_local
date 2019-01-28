@@ -1,9 +1,8 @@
 pipeline {
-  agent any
-  parameters {
-    string(name: 'IAST_SERVER_HOST', defaultValue: 'localhost', description: 'The Hailstone Agent Server host name.')
-    string(name: 'IAST_SERVER_PORT', defaultValue: '10010', description: 'The port that the Hailstone Agent Server is listening to.')
-    string(name: 'IAST_AGENT_PATH', defaultValue: '', description: 'The path to the Hailstone Agent (e.g. agent_nodejs_linux64.node).')
+  agent {
+    docker {
+      image 'node:9'
+    }
   }
   environment {
     IAST_SERVER_HOST = "host.docker.internal"
@@ -21,7 +20,7 @@ pipeline {
     stage('Test') {
       steps {
         echo "Running Test stage with Agent Server: ${IAST_SERVER_HOST}:${IAST_SERVER_PORT}"
-        wrap([$class: 'HailstoneBuildWrapper', location: ${IAST_SERVER_HOST}, port: ${IAST_SERVER_PORT}s]) {
+        wrap([$class: 'HailstoneBuildWrapper', location: ${IAST_SERVER_HOST}, port: ${IAST_SERVER_PORT}]) {
           sh 'forever start -e err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh'
           sleep(time:30,unit:"SECONDS")
           // Comment in this next line to view the Agent log.
