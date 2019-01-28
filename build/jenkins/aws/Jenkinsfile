@@ -3,7 +3,7 @@ pipeline {
   environment {
     IAST_SERVER_HOST = "agent-server"
     IAST_SERVER_PORT = "10010"
-    IAST_AGENT_PATH = "/usr/local/bin/node"
+    IAST_AGENT_PATH = "/"
     NODE_PATH = "${IAST_AGENT_PATH}"
   }
   stages {
