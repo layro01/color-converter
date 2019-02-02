@@ -7,8 +7,9 @@ pipeline {
   environment {
     IAST_SERVER_HOST = "host.docker.internal"
     IAST_SERVER_PORT = "10010"
-    IAST_AGENT_PATH = "/home/agents"
+    IAST_AGENT_PATH = "/home/agents/linux64"
     NODE_PATH = "${IAST_AGENT_PATH}"
+    RUN_CHANGES_DISPLAY_URL = "http://localhost:8080/job/color-converter/27/display/redirect?page=changes"
   }
   stages {
     stage('Build') { 
