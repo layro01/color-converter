@@ -5,6 +5,7 @@ pipeline {
     IAST_SERVER_PORT = "10010"
     IAST_AGENT_PATH = "/var/jenkins_home"
     NODE_PATH = "${IAST_AGENT_PATH}"
+    RUN_CHANGES_DISPLAY_URL = "http://localhost:8080/job/color-converter/27/display/redirect?page=changes"
   }
   stages {
     stage('Build') { 
