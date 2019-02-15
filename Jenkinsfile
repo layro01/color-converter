@@ -1,11 +1,7 @@
 pipeline {
   agent any
   environment {
-    IAST_SERVER_HOST = "docker"
-    IAST_SERVER_PORT = "10010"
-    IAST_AGENT_PATH = "/var/jenkins_home"
-    NODE_PATH = "${IAST_AGENT_PATH}"
-    RUN_CHANGES_DISPLAY_URL = "http://localhost:8080/job/color-converter/27/display/redirect?page=changes"
+    NODE_PATH = "/var/jenkins_home"
   }
   stages {
     stage('Build') { 
@@ -16,22 +12,11 @@ pipeline {
     }
     stage('Test') {
       steps {
-        echo "Running Test stage with Agent Server: ${IAST_SERVER_HOST}:${IAST_SERVER_PORT}"
-        script {
-          def agentPath = "${NODE_PATH}/agent_nodejs_linux64.node"
-          dir("${NODE_PATH}") {
-            if (fileExists("agent_nodejs_linux64.node")) {
-              echo "Using Agent: ${agentPath}"
-            } else {
-              echo "ERROR: Agent cannot be found at: ${agentPath}"
-            }
-          }
-        }
-        wrap([$class: 'HailstoneBuildWrapper', location: env.IAST_SERVER_HOST, port: env.IAST_SERVER_PORT]) {
-          sh "forever start -e err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh ${env.IAST_SERVER_HOST} ${env.IAST_SERVER_PORT}"
+        wrap([$class: 'HailstoneBuildWrapper', location: 'docker', port: '10010']) {
+          sh "forever start -e agent.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c 'node -r ./agent_nodejs_linux64' app/server.js"
           sleep(time:30,unit:"SECONDS")
           // Comment in this next line to view the Agent log.
-          sh 'cat err.log'
+          sh 'cat agent.log'
           sh 'npm test'
           sh 'forever stop 0'
         }
