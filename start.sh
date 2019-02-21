@@ -3,7 +3,7 @@
 # These should be fine set at their default values.
 # If we want a user to be able to set them, we could update the Jenkins Plugin so 
 # they could be configured as necessary.
-# export IASTAGENT_LOGGING_STDERR_LEVEL=info
+export IASTAGENT_LOGGING_STDERR_LEVEL=info
 # export IASTAGENT_LOGGING_FILE_ENABLED=true
 # export IASTAGENT_LOGGING_FILE_PATHNAME=iastdebug.txt
 # export IASTAGENT_LOGGING_FILE_LEVEL=info

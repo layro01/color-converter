@@ -14,6 +14,7 @@ pipeline {
           // sh "forever start -l ${BUILD_TAG}.log -o ${BUILD_TAG}-out.log -e ${BUILD_TAG}-err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c 'node -r ./agent_nodejs_linux64' app/server.js"
           sh "forever start -l ${BUILD_TAG}.log -o ${BUILD_TAG}-out.log -e ${BUILD_TAG}-err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh"
           sleep(time:30,unit:"SECONDS")
+          sh "cat ${BUILD_TAG}-err.log"
           sh 'npm test'
           sh 'forever stop 0'
         }
