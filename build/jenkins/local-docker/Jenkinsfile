@@ -4,9 +4,6 @@ pipeline {
       image 'node:9'
     }
   }
-  environment {
-    NODE_PATH = '/home/agents/linux64'
-  }
   stages {
     stage('Build') { 
       steps {
