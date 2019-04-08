@@ -12,7 +12,7 @@ pipeline {
     }
     stage('Test') {
       steps {
-        wrap([$class: 'HailstoneBuildWrapper', location: 'docker', port: '10010']) {
+        wrap([$class: 'VeracodeInteractiveBuildWrapper', location: 'docker', port: '10010']) {
           sh "forever start -e agent.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c 'node -r ./agent_nodejs_linux64' app/server.js"
           sleep(time:30,unit:"SECONDS")
           // Comment in this next line to view the Agent log.
