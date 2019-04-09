@@ -61,3 +61,5 @@ typings/
 
 # next.js build output
 .next
+agent_nodejs_darwin64.node
+iastagent_resources.zip

@@ -15,6 +15,7 @@ case "$OSTYPE" in
 esac
 
 # Configure the Agent to send events to the Agent Server.
+export IASTAGENT_LOGGING_STDERR_LEVEL=info
 export IASTAGENT_REMOTE_ENDPOINT_HTTP_ENABLED=true
 export IASTAGENT_REMOTE_ENDPOINT_HTTP_LOCATION=localhost
 export IASTAGENT_REMOTE_ENDPOINT_HTTP_PORT=10010
@@ -32,11 +33,12 @@ if [[ "$status_code" -ne 200 ]]; then
 fi;
 
 # Send session_start event to Agent Server and save off the sessionId returned.
-SESSION_ID=$(curl -H "Content-Type:application/json" -H "x-hailstone-event:session_start" --silent --insecure -X POST -d "{\"BUILD_TAG\":\"${BUILD_TAG}\"}" ${AGENT_SERVER_URL}/event | jq -r '.sessionId')
+SESSION_ID=$(curl -H "Content-Type:application/json" -H "x-iast-event:session_start" --silent --insecure -X POST -d "{\"BUILD_TAG\":\"${BUILD_TAG}\"}" ${AGENT_SERVER_URL}/event | jq -r '.sessionId')
 echo "Using sessionId: ${SESSION_ID}"
 
 # Get the latest version of the Veracode Interactive Agent.
-curl -sSL https://s3.us-east-2.amazonaws.com/app.hailstone.io/iast-ci.sh | sh
+# curl -sSL https://s3.us-east-2.amazonaws.com/app.hailstone.io/iast-ci.sh | sh
+cp ~/vscode/hailstone/iast-dev/out/agent/Debug/nodejs/* .
 
 # Start the Node Express server with the Veracode Interactive Agent attached.
 forever start -e ${BUILD_TAG}.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c "node -r ./agent_nodejs_${PLATFORM}" app/server.js
@@ -51,7 +53,7 @@ npm test
 forever stop 0
 
 # Send session_stop event to Agent Server.
-curl -H "Content-Type:application/json" -H "x-hailstone-event:session_stop" -H "x-hailstone-session-id:${SESSION_ID}" --silent --output /dev/null --insecure -X POST ${AGENT_SERVER_URL}/event
+curl -H "Content-Type:application/json" -H "x-iast-event:session_stop" -H "x-iast-session-id:${SESSION_ID}" --silent --output /dev/null --insecure -X POST ${AGENT_SERVER_URL}/event
 
 # Print the Veracode Interactive Summary Report to the console.
 curl -H "Accept:text/plain" --insecure -X GET ${AGENT_SERVER_URL}/result?sessionId=${SESSION_ID}
