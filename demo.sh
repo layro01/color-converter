@@ -37,8 +37,7 @@ SESSION_ID=$(curl -H "Content-Type:application/json" -H "x-iast-event:session_st
 echo "Using sessionId: ${SESSION_ID}"
 
 # Get the latest version of the Veracode Interactive Agent.
-# curl -sSL https://s3.us-east-2.amazonaws.com/app.hailstone.io/iast-ci.sh | sh
-cp ~/vscode/hailstone/iast-dev/out/agent/Debug/nodejs/* .
+curl -sSL https://s3.us-east-2.amazonaws.com/app.veracode-iast.io/iast-ci.sh | sh
 
 # Start the Node Express server with the Veracode Interactive Agent attached.
 forever start -e ${BUILD_TAG}.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c "node -r ./agent_nodejs_${PLATFORM}" app/server.js
