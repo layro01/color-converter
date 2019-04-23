@@ -1,0 +1,37 @@
+pipeline {
+  agent any
+  environment {
+    AGENT_PATH = "C:/IAST/iast-dev/out/agent/Debug/dotnet"
+  }
+  stages {
+    stage('Build') { 
+      steps {
+        bat 'npm install'
+        bat 'sudo npm install forever -g'
+      }
+    }
+    stage('Test') {
+      steps {
+        wrap([$class: 'VeracodeInteractiveBuildWrapper', location: 'localhost', port: '10010']) {
+          bat "node -v"
+          // Download of IAST Agents is currently not supported on Windows. 
+          // To use Veracode Interactive in Windows-based runners:
+          //    (1) Download a copy of the IAST Agent binary and resources zip 
+          //    (2) Update AGENT_PATH with the location you have downloaded them.
+          bat "cp ${AGENT_PATH}/agent_dotnet_win64.dll ."
+          bat "cp ${AGENT_PATH}/iastagent_resources.zip ."
+          bat "forever start -l ${BUILD_TAG}.log -o ${BUILD_TAG}-out.log -e ${BUILD_TAG}-err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c 'node -r ./agent_nodejs_win64' app/server.js"
+          sleep(time:30,unit:"SECONDS")
+          bat "type ${BUILD_TAG}-err.log"
+          bat 'npm test'
+          bat 'forever stop 0'
+        }
+      }
+    }
+    stage('Deploy') { 
+      steps {
+        bat 'echo npm package would run here...'
+      }
+    }
+  }
+}
