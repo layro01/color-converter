@@ -14,4 +14,4 @@ REM set IASTAGENT_REMOTE_ENDPOINT_HTTP_ENABLED=true
 REM set IASTAGENT_REMOTE_ENDPOINT_HTTP_LOCATION=localhost
 REM set IASTAGENT_REMOTE_ENDPOINT_HTTP_PORT=10010
 
-node -r .\agent_nodejs_win64 app/server.js
+node -r .\agent_nodejs_win64 app\server.js
