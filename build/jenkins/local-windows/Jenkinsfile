@@ -7,7 +7,7 @@ pipeline {
     stage('Build') { 
       steps {
         bat 'npm install'
-        bat 'sudo npm install forever -g'
+        bat 'npm install forever -g'
       }
     }
     stage('Test') {
