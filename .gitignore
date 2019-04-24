@@ -6,6 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 iast*.txt
 iast*.ndjson
+*.node
 
 # Runtime data
 pids
