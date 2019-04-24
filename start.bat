@@ -1,7 +1,5 @@
 @echo off
 
-set NODE_PATH=.
-
 REM These should be fine set at their default values.
 REM If we want a user to be able to set them, we could update the Jenkins Plugin so 
 REM they could be configured as necessary.
