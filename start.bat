@@ -1,5 +1,7 @@
 @echo off
 
+set NODE_PATH=.
+
 REM These should be fine set at their default values.
 REM If we want a user to be able to set them, we could update the Jenkins Plugin so 
 REM they could be configured as necessary.
@@ -14,4 +16,4 @@ REM set IASTAGENT_REMOTE_ENDPOINT_HTTP_ENABLED=true
 REM set IASTAGENT_REMOTE_ENDPOINT_HTTP_LOCATION=localhost
 REM set IASTAGENT_REMOTE_ENDPOINT_HTTP_PORT=10010
 
-node -r .\agent_nodejs_win64 app\server.js
+node -r agent_nodejs_win64 app\server.js
