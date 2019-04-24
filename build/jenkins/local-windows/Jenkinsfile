@@ -2,7 +2,7 @@ pipeline {
   agent any
   environment {
     AGENT_PATH = "C:\\IAST\\iast-dev\\out\\agent\\Debug\\nodejs"
-    IASTAGENT_LOGGING_STDERR_LEVEL=info
+    IASTAGENT_LOGGING_STDERR_LEVEL = "info"
   }
   stages {
     stage('Build') { 
