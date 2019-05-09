@@ -7,6 +7,7 @@ yarn-error.log*
 iast*.txt
 iast*.ndjson
 *.node
+*.exe
 
 # Runtime data
 pids
