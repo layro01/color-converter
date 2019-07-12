@@ -5,7 +5,7 @@ pipeline {
     }
   }
   environment {
-    AGENT_PATH = "~/home/agents/linux64"
+    AGENT_PATH = "/home/agents/linux64"
     IASTAGENT_LOGGING_STDERR_LEVEL = "info"
   }
   stages {
