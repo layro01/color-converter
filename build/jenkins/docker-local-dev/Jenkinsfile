@@ -1,0 +1,36 @@
+pipeline {
+  agent {
+    docker {
+      image 'node:9'
+    }
+  }
+  environment {
+    AGENT_PATH = "~/home/agents/linux64"
+    IASTAGENT_LOGGING_STDERR_LEVEL = "info"
+  }
+  stages {
+    stage('Build') { 
+      steps {
+        sh 'npm install'
+        sh 'npm install forever -g'
+      }
+    }
+    stage('Test') {
+      steps {
+        wrap([$class: 'VeracodeInteractiveBuildWrapper', location: 'host.docker.internal', port: '10010']) {
+          sh "cp ${AGENT_PATH}/* ."
+          sh "forever start -l ${BUILD_TAG}.log -o ${BUILD_TAG}-out.log -e ${BUILD_TAG}-err.log --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c /bin/sh ./start.sh"
+          sleep(time:30,unit:"SECONDS")
+          sh "cat ${BUILD_TAG}-err.log"
+          sh 'npm test'
+          sh 'forever stop 0'
+        }
+      }
+    }
+    stage('Deploy') { 
+      steps {
+        sh 'echo npm package would run here...'
+      }
+    }
+  }
+}
