@@ -16,6 +16,10 @@ process.on('SIGTERM', gracefulShutdown);
 // listen for INT signal (e.g. Ctrl+C).
 process.on('SIGINT', gracefulShutdown);
 
+app.get('/', function(req, res) {
+  res.send('color-converter is alive!!!');
+});
+
 app.get("/rgbToHex", function(req, res) {
   // CWE-95: PASS
   // To fix these security vulnerabilities, 
