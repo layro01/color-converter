@@ -47,12 +47,17 @@ forever start -e ${SCAN_STREAM_ID}.log --killSignal SIGTERM --minUptime 1000 --s
 # Give the server some time to start.
 sleep 10
 
-# Send an HTTP GET to the root of the color-converter application, 
-# passing the scan_stream_id in the X-IAST-Scan-Start header.
+# Send an X-IAST-Scan-Start header through the application.
+# This will set the scan_stream/${SCAN_STREAM_ID} session_status to READY.
 curl -H "X-IAST-Scan-Start:${SCAN_STREAM_ID}" http://localhost:3000
 
 # Run the Mocha tests for the started server application.
+# (You can think of this as being the 'crawl only' scan...)
 npm test
+
+# Send an X-IAST-Scan-Stop header through the application.
+# This will set the scan_stream/${SCAN_STREAM_ID} session_status to CLOSED.
+curl -H "x-iast-scan-stop:${SCAN_STREAM_ID}" http://localhost:3000
 
 # Stop the Node Express server application
 forever stopall
