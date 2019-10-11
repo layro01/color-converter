@@ -16,7 +16,7 @@ pipeline {
         wrap([$class: 'VeracodeInteractiveBuildWrapper', location: 'agent-server.veracode-iast.io', port: '10010']) {
           sh 'curl -sSL https://s3.us-east-2.amazonaws.com/app.veracode-iast.io/iast-ci.sh | sh'
           sh "LD_LIBRARY_PATH=$WORKSPACE forever start --killSignal SIGTERM --minUptime 1000 --spinSleepTime 1000 -c 'node -r ./agent_linux64.node' app/server.js"
-          sleep(time:30,unit:"SECONDS")
+          sleep(time:10,unit:"SECONDS")
           sh 'npm test'
           sh 'forever stop 0'
         }
